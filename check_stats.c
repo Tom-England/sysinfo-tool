@@ -59,12 +59,11 @@ char* get_uptime(){
 
 int print(const int side, char* title, char* msg, const char* colour){
 	const int offset = 3;
-	const int ascii_size = 6;
 	const char* esc = "\033";
 
 	if (side) {
 		// print info (right side)
-		for(int i = 0; i < offset + ascii_size; i++){
+		for(int i = 0; i < offset; i++){
 			printf(" ");
 		}
 	}
@@ -87,11 +86,15 @@ int main(){
 
 	char host[255];
 	sprintf(host, "%s@%s", getenv("USER"), hostname);
-
+	
+	print(0, "  ||  ", "", GREEN);
 	print(1, host, "", GREEN);
+	print(0, "()()()", "", RED);
 	print(1, "Current uptime: ", uptime, RED);
+	print(0, " ()() ", "", RED);
 	print(1, "CPU Temp: ", temp, RED);
-
+	print(0, "  ()", "", RED);
+	printf("\n");
 	//get_ip_addr();
 
 	free(uptime);
