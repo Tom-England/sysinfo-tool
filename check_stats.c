@@ -10,6 +10,11 @@
 #include <ctype.h>
 
 char* get_ip_addr(){
+	// Function finds available network interfaces and their addresses
+	// It then loops through them and returns the final interfaces address
+	// This is done as the first interface is the loopback and alway has
+	// the address 127.0.0.1 so would not be useful to output
+
 	struct ifaddrs *ifap, *ifa;
 	struct sockaddr_in *sa;
 	char *addr;
@@ -28,6 +33,8 @@ char* get_ip_addr(){
 
 
 char* read_temp(){
+	// Function returns the CPU temperature as found in the sys directory
+	// Note: this may not exist on all systems however works for raspberry pi
 	FILE *tempFile;
 	double T;
 	tempFile = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
@@ -38,11 +45,12 @@ char* read_temp(){
 	T /= 1000;
 	fclose(tempFile);
 	char* temp_string = (char *)malloc(sizeof(char) * 7);
-	sprintf(temp_string, "%6.3f'C", T);
+	sprintf(temp_string, "%6.3f°C", T);
 	return temp_string;
 }
 
 char* get_uptime(){
+	// Gets the system uptime and converts it into a more human readable format
 	struct sysinfo s_info;
 	int error = sysinfo(&s_info);
 	if(error != 0){
@@ -60,6 +68,7 @@ char* get_uptime(){
 }
 
 char* get_mem_value_from_line(char* line, ssize_t strlen){
+	// Takes in a line from proc/meminfo and extracts the numeric value
 	char* value = malloc(sizeof(char) * 10);
 	int end_index = 0;
 	for (int i = 0; i < strlen; i++){
@@ -73,6 +82,7 @@ char* get_mem_value_from_line(char* line, ssize_t strlen){
 }
 
 char* get_mem_usage(){
+	// Returns information on used and available memory on the system
 	FILE* memfile = fopen("/proc/meminfo", "r");
 	char* line;
 	ssize_t read;
@@ -106,6 +116,8 @@ char* get_mem_usage(){
 }
 
 int print(const int side, char* title, char* msg, const char* colour){
+	// Prints a formatted line in the terminal with colour options and offset
+	// if required
 	const int offset = 3;
 	const char* esc = "\033";
 
@@ -128,6 +140,7 @@ int main(){
 	char* uptime = get_uptime();
 	char* ip_addr = get_ip_addr();
 	char* memory_usage = get_mem_usage();
+
 	// For some reason attempting to get hostname via getenv("HOSTNAME")
 	// returns null despite $HOSTNAME being a valid env variable
 	// This function is also not in linux/unistd.h hence the second include
