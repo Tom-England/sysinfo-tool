@@ -7,6 +7,7 @@
 #include <linux/kernel.h>
 #include <linux/unistd.h>
 #include <unistd.h>
+#include <ctype.h>
 
 char* get_ip_addr(){
 	struct ifaddrs *ifap, *ifa;
@@ -58,6 +59,52 @@ char* get_uptime(){
 	return return_string;
 }
 
+char* get_mem_value_from_line(char* line, ssize_t strlen){
+	char* value = malloc(sizeof(char) * 10);
+	int end_index = 0;
+	for (int i = 0; i < strlen; i++){
+		if(isdigit(line[i])){
+			value[end_index] = line[i];
+			end_index += 1;
+		}
+	}
+	value[end_index] = '\0';
+	return value;
+}
+
+char* get_mem_usage(){
+	FILE* memfile = fopen("/proc/meminfo", "r");
+	char* line;
+	ssize_t read;
+	ssize_t total_read = 0;
+	size_t len = 0;
+
+	int used, total;
+
+	// total memory is line 1
+	read = getline(&line, &len, memfile);
+	char* total_line = get_mem_value_from_line(line, read);
+	total_read = read;
+	sscanf(total_line, "%d", &total);
+
+	// available memory is on line 3
+	getline(&line, &len, memfile);
+	read = getline(&line, &len, memfile);
+	char* used_line = get_mem_value_from_line(line, read);
+	total_read += read;
+	sscanf(used_line, "%d", &used);
+
+	int free = total - used;
+	free /= 1024;
+	total /= 1024;
+
+
+	char* formatted_line = malloc(sizeof(char) * total_read);
+	sprintf(formatted_line, "%dM/%dM", free, total);
+
+	return formatted_line;
+}
+
 int print(const int side, char* title, char* msg, const char* colour){
 	const int offset = 3;
 	const char* esc = "\033";
@@ -79,6 +126,7 @@ int main(){
 	char* temp = read_temp();
 	char* uptime = get_uptime();
 	char* ip_addr = get_ip_addr();
+	char* memory_usage = get_mem_usage();
 	// For some reason attempting to get hostname via getenv("HOSTNAME")
 	// returns null despite $HOSTNAME being a valid env variable
 	// This function is also not in linux/unistd.h hence the second include
@@ -96,7 +144,7 @@ int main(){
 	print(1, "CPU Temp: ", temp, RED);
 	print(0, "  ()  ", "", RED);
 	print(1, "IP Address: ", ip_addr, RED);
-
+	print(1, "Memory: ", memory_usage, RED);
 	free(uptime);
 	free(temp);
 	return 0;
