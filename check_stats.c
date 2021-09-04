@@ -52,16 +52,16 @@ char* read_temp(){
 char* get_uptime(){
 	// Gets the system uptime and converts it into a more human readable format
 	struct sysinfo s_info;
-	int error = sysinfo(&s_info);
+	const int error = sysinfo(&s_info);
 	if(error != 0){
 		printf("code error = %d\n", error);
 	}
 	long t_seconds = s_info.uptime;
-	int hours = t_seconds / 3600;
+	const int hours = t_seconds / 3600;
 	t_seconds -= 3600 * hours;
-	int minutes = t_seconds / 60;
+	const int minutes = t_seconds / 60;
 	t_seconds -= 60 * minutes;
-	char* pattern = "%dH:%dM:%dS";
+	const char* pattern = "%dH:%dM:%dS";
 	char* return_string = (char*)malloc(sizeof(char)*20);
 	sprintf(return_string,pattern, hours, minutes, t_seconds);
 	return return_string;
@@ -136,10 +136,10 @@ int main(){
 	const char* RED = "[0;31m";
 	const char* BOLDRED = "[1;31m";
 	const char* GREEN = "[1;32m";
-	char* temp = read_temp();
-	char* uptime = get_uptime();
-	char* ip_addr = get_ip_addr();
-	char* memory_usage = get_mem_usage();
+	const char* temp = read_temp();
+	const char* uptime = get_uptime();
+	const char* ip_addr = get_ip_addr();
+	const char* memory_usage = get_mem_usage();
 
 	// For some reason attempting to get hostname via getenv("HOSTNAME")
 	// returns null despite $HOSTNAME being a valid env variable
