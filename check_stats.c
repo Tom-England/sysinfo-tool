@@ -136,14 +136,15 @@ int main(){
 	char host[255];
 	sprintf(host, "%s@%s", getenv("USER"), hostname);
 
-	print(0, "  ||  ", "", GREEN);
+	print(0, "    ||    ", "", GREEN);
 	print(1, host, "", GREEN);
-	print(0, "()()()", "", RED);
+	print(0, "  ()()()  ", "", RED);
 	print(1, "Current uptime: ", uptime, RED);
-	print(0, " ()() ", "", RED);
+	print(0, " ()()()() ", "", RED);
 	print(1, "CPU Temp: ", temp, RED);
-	print(0, "  ()  ", "", RED);
+	print(0, "  ()()()  ", "", RED);
 	print(1, "IP Address: ", ip_addr, RED);
+	print(0, "    ()    ", "", RED);
 	print(1, "Memory: ", memory_usage, RED);
 	free(uptime);
 	free(temp);
