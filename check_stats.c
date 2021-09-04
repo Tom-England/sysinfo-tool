@@ -84,6 +84,7 @@ char* get_mem_value_from_line(char* line, ssize_t strlen){
 char* get_mem_usage(){
 	// Returns information on used and available memory on the system
 	FILE* memfile = fopen("/proc/meminfo", "r");
+	if (memfile == NULL){ return "Memory File Read Error"; }
 	char* line;
 	ssize_t read;
 	ssize_t total_read = 0;
@@ -108,6 +109,7 @@ char* get_mem_usage(){
 	free /= 1024;
 	total /= 1024;
 
+	fclose(memfile);
 
 	char* formatted_line = malloc(sizeof(char) * total_read);
 	sprintf(formatted_line, "%dM/%dM", free, total);
