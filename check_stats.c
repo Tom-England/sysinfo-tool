@@ -8,7 +8,7 @@
 #include <linux/unistd.h>
 #include <unistd.h>
 
-void get_ip_addr(){
+char* get_ip_addr(){
 	struct ifaddrs *ifap, *ifa;
 	struct sockaddr_in *sa;
 	char *addr;
@@ -17,11 +17,12 @@ void get_ip_addr(){
 	        if (ifa->ifa_addr && ifa->ifa_addr->sa_family==AF_INET) {
 	            sa = (struct sockaddr_in *) ifa->ifa_addr;
 	            addr = inet_ntoa(sa->sin_addr);
-	            printf("Interface: %s | Address: %s", ifa->ifa_name, addr);
+	            //printf("Interface: %s | Address: %s", ifa->ifa_name, addr);
 	        }
 	}
 
 	freeifaddrs(ifap);
+	return addr;
 }
 
 
@@ -77,7 +78,7 @@ int main(){
 	const char* GREEN = "[1;32m";
 	char* temp = read_temp();
 	char* uptime = get_uptime();
-
+	char* ip_addr = get_ip_addr();
 	// For some reason attempting to get hostname via getenv("HOSTNAME")
 	// returns null despite $HOSTNAME being a valid env variable
 	// This function is also not in linux/unistd.h hence the second include
@@ -86,17 +87,17 @@ int main(){
 
 	char host[255];
 	sprintf(host, "%s@%s", getenv("USER"), hostname);
-	
+
 	print(0, "  ||  ", "", GREEN);
 	print(1, host, "", GREEN);
 	print(0, "()()()", "", RED);
 	print(1, "Current uptime: ", uptime, RED);
 	print(0, " ()() ", "", RED);
 	print(1, "CPU Temp: ", temp, RED);
-	print(0, "  ()", "", RED);
-	printf("\n");
-	//get_ip_addr();
+	print(0, "  ()  ", "", RED);
+	print(1, "IP Address: ", ip_addr, RED);
 
 	free(uptime);
+	free(temp);
 	return 0;
 }
