@@ -115,7 +115,7 @@ char* get_mem_usage(){
 	return formatted_line;
 }
 
-int print(const int side, char* title, char* msg, const char* colour){
+int print(const int side, char* title, const char* msg, const char* colour){
 	// Prints a formatted line in the terminal with colour options and offset
 	// if required
 	const int offset = 3;
@@ -161,7 +161,5 @@ int main(){
 	print(0, "    ()    ", "", BOLDRED);
 	print(1, "Memory: ", memory_usage, RED);
 	printf("\n");
-	free(uptime);
-	free(temp);
 	return 0;
 }
