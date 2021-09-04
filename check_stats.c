@@ -38,7 +38,7 @@ char* read_temp(){
 	T /= 1000;
 	fclose(tempFile);
 	char* temp_string = (char *)malloc(sizeof(char) * 7);
-	sprintf(temp_string, "%6.3f'C", T);
+	sprintf(temp_string, "%6.3f°C", T);
 	return temp_string;
 }
 
@@ -128,6 +128,7 @@ int main(){
 	char* uptime = get_uptime();
 	char* ip_addr = get_ip_addr();
 	char* memory_usage = get_mem_usage();
+
 	// For some reason attempting to get hostname via getenv("HOSTNAME")
 	// returns null despite $HOSTNAME being a valid env variable
 	// This function is also not in linux/unistd.h hence the second include
