@@ -122,6 +122,7 @@ int print(const int side, char* title, char* msg, const char* colour){
 int main(){
 
 	const char* RED = "[0;31m";
+	const char* BOLDRED = "[1;31m";
 	const char* GREEN = "[1;32m";
 	char* temp = read_temp();
 	char* uptime = get_uptime();
@@ -138,13 +139,13 @@ int main(){
 
 	print(0, "    ||    ", "", GREEN);
 	print(1, host, "", GREEN);
-	print(0, "  ()()()  ", "", RED);
+	print(0, "  ()()()  ", "", BOLDRED);
 	print(1, "Current uptime: ", uptime, RED);
-	print(0, " ()()()() ", "", RED);
+	print(0, " ()()()() ", "", BOLDRED);
 	print(1, "CPU Temp: ", temp, RED);
-	print(0, "  ()()()  ", "", RED);
+	print(0, "  ()()()  ", "", BOLDRED);
 	print(1, "IP Address: ", ip_addr, RED);
-	print(0, "    ()    ", "", RED);
+	print(0, "    ()    ", "", BOLDRED);
 	print(1, "Memory: ", memory_usage, RED);
 	free(uptime);
 	free(temp);
