@@ -149,7 +149,7 @@ int main(){
 
 	char host[255];
 	sprintf(host, "%s@%s", getenv("USER"), hostname);
-
+	printf("\n");
 	print(0, "    ||    ", "", GREEN);
 	print(1, host, "", GREEN);
 	print(0, "  ()()()  ", "", BOLDRED);
@@ -160,6 +160,7 @@ int main(){
 	print(1, "IP Address: ", ip_addr, RED);
 	print(0, "    ()    ", "", BOLDRED);
 	print(1, "Memory: ", memory_usage, RED);
+	printf("\n");
 	free(uptime);
 	free(temp);
 	return 0;
