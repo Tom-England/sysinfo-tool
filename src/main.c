@@ -1,16 +1,16 @@
 #include "check_stats.c"
 #include <stdio.h>
 
-#DEFINE RED         "[0;31m"
-#DEFINE BOLDRED     "[1;31m"
-#DEFINE GREEN       "[1;32m";
+#define RED         "[0;31m"
+#define BOLDRED     "[1;31m"
+#define GREEN       "[1;32m"
 
 int main(){
 
-	const char* temp = read_temp();
-	const char* uptime = get_uptime();
-	const char* ip_addr = get_ip_addr();
-	const char* memory_usage = get_mem_usage();
+	char* temp = read_temp();
+	char* uptime = get_uptime();
+	char* ip_addr = get_ip_addr();
+	char* memory_usage = get_mem_usage();
 
 	// For some reason attempting to get hostname via getenv("HOSTNAME")
 	// returns null despite $HOSTNAME being a valid env variable
