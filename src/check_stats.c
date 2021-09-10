@@ -8,6 +8,7 @@
 #include <linux/unistd.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <regex.h>
 
 char* get_ip_addr(){
 	// Function finds available network interfaces and their addresses
@@ -110,7 +111,7 @@ char* get_mem_usage(){
 	total /= 1024;
 
 	fclose(memfile);
-	
+
 	char* formatted_line = malloc(sizeof(char) * total_read);
 	sprintf(formatted_line, "%dM/%dM", free, total);
 
@@ -131,4 +132,54 @@ int print(const int side, char* title, char* msg, const char* colour){
 	}
 	printf("%s%s%s%s%s%s", esc, colour, title, esc, "[0m", msg);
 	if (side) {printf("\n");}
+}
+
+int check_line(const char* line, const char* match){
+	// Use REGEX to find expression in line
+	// Variable to store initial regex()
+  regex_t regex;
+
+  // Variable for return type
+  int value;
+
+  // Creation of regEx
+  value = regcomp(&regex, match, 0);
+
+  // Comparing pattern "Geeks"
+  // with string in reg
+  value = regexec(&regex, line, 0, NULL, 0);
+
+  if (value == 0) { return 1; }
+  return 0;
+}
+
+char* get_distro(){
+	// Function reads the /etc/*-release file and uses the ID line to determine OS
+	FILE* fp = fopen("/etc/os-release", "r");
+	if (fp == NULL){
+		printf("File Read Error\n");
+		return "release file Read Error"; }
+	char* line;
+	ssize_t read;
+	size_t len = 0;
+	char* distro;
+
+	// Loop through lines until ID= is found
+	int found = 0;
+	while (!found) {
+		read = getline(&line, &len, fp);
+		if (check_line(line, "ID=")) {
+			found = 1;
+		}
+	}
+
+	fclose(fp);
+	printf("Line: %s\n", line);
+	return line;
+
+}
+
+char** get_logo(){
+	FILE* fp;
+	get_distro();
 }
