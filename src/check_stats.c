@@ -122,17 +122,20 @@ char* get_mem_usage(){
 int print(const int side, char* title, char* msg, const char* colour){
 	// Prints a formatted line in the terminal with colour options and offset
 	// if required
+	const int logo_size = 10;
 	const int offset = 3;
 	const char* esc = "\033";
 
+	printf("\r");
 	if (side) {
 		// print info (right side)
-		for(int i = 0; i < offset; i++){
+
+		for(int i = 0; i < offset + logo_size; i++){
 			printf(" ");
 		}
 	}
 	printf("%s%s%s%s%s%s", esc, colour, title, esc, "[0m", msg);
-	if (side) {printf("\n");}
+	if (!side) {printf("\n");}
 }
 
 int check_line(const char* line, const char* match){
