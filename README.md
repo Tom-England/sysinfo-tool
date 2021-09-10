@@ -11,12 +11,11 @@ For the Raspberry Pi.
 * CPU temperature (Not available on all systems)
 * IP address
 * Current memory usage
-* Displays a distro logo (rasbian only currently)
+* Displays a distro logo
 
 ## Planned features
 * Customisable output
-* Distro specific logos
-* Support for other distros
+* Support for more distros
 
 ## Commands
 ### Installation
