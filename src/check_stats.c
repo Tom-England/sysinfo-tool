@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <regex.h>
+#include <string.h>
 
 char* get_ip_addr(){
 	// Function finds available network interfaces and their addresses
@@ -174,12 +175,37 @@ char* get_distro(){
 	}
 
 	fclose(fp);
-	printf("Line: %s\n", line);
 	return line;
 
 }
 
 char** get_logo(){
 	FILE* fp;
-	get_distro();
+	char* distro = get_distro();
+	//printf("Distro: %s\n", distro);
+	if (strcmp(distro, "ID=arch\n") == 0) {
+		//printf("Distro: Arch\n");
+		fp = fopen("distros/arch.txt", "r");
+	} else if (strcmp(distro, "ID=raspbian\n") == 0){
+		//printf("Distro: Raspbian\n");
+		fp = fopen("distros/raspbian.txt", "r");
+	}
+
+	if (fp == NULL) {
+		printf("Error opening distro file\n");
+		return NULL;
+	}
+
+	char* line;
+	ssize_t read;
+	size_t len = 0;
+	char** logo = malloc(sizeof(char*) * 5);
+	for (int i = 0; i<5; i++){
+		read = getline(&line, &len, fp);
+		line[read-1] = '\0';
+		//printf("\033%s\n", line);
+		logo[i] = (char*)malloc(sizeof(char) * read + 1);
+		strcpy(logo[i], line);
+	}
+	return logo;
 }
