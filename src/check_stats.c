@@ -172,7 +172,7 @@ char* get_distro(){
 	int found = 0;
 	while (!found) {
 		read = getline(&line, &len, fp);
-		if (check_line(line, "ID=")) {
+		if (check_line(line, "^ID=")) {
 			found = 1;
 		}
 	}
@@ -186,6 +186,7 @@ char** get_logo(){
 	FILE* fp;
 	char* distro = get_distro();
 	//printf("Distro: %s\n", distro);
+	
 	if (strcmp(distro, "ID=arch\n") == 0) {
 		//printf("Distro: Arch\n");
 		fp = fopen("distros/arch.txt", "r");

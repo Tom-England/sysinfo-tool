@@ -12,8 +12,8 @@ int main(){
 	char* uptime = get_uptime();
 	char* ip_addr = get_ip_addr();
 	char* memory_usage = get_mem_usage();
+	
 	char** logo = get_logo();
-
 
 	// For some reason attempting to get hostname via getenv("HOSTNAME")
 	// returns null despite $HOSTNAME being a valid env variable
@@ -27,7 +27,7 @@ int main(){
 	printf("\n");
 	print(1, host, "", GREEN);
 	print(0, logo[0], "", NOCOLOUR);
-
+	
 	print(1, "Current uptime: ", uptime, RED);
 	print(0, logo[1], "", NOCOLOUR);
 
