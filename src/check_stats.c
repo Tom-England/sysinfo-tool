@@ -162,7 +162,7 @@ char* get_distro(){
 	FILE* fp = fopen("/etc/os-release", "r");
 	if (fp == NULL){
 		printf("File Read Error\n");
-		return "release file Read Error"; }
+		return NULL; }
 	char* line;
 	ssize_t read;
 	size_t len = 0;
@@ -186,8 +186,10 @@ char** get_logo(){
 	FILE* fp;
 	char* distro = get_distro();
 	//printf("Distro: %s\n", distro);
-	
-	if (strcmp(distro, "ID=arch\n") == 0) {
+	if (distro == NULL){
+		fp = fopen("distros/no_distro.txt", r);
+	}
+	else if (strcmp(distro, "ID=arch\n") == 0) {
 		//printf("Distro: Arch\n");
 		fp = fopen("distros/arch.txt", "r");
 	} else if (strcmp(distro, "ID=raspbian\n") == 0){
