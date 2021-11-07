@@ -3,7 +3,7 @@
 A small, fast system fetch tool written in C
 For the Raspberry Pi.
 
-![Image of Output](/img/tfetch.jpg)
+![Image of Output](https://github.com/Tom-England/tfetch/blob/master/img/tfetch.JPG)
 
 ## Current output
 * Current user + hostname
