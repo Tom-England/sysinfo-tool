@@ -187,14 +187,14 @@ char** get_logo(){
 	char* distro = get_distro();
 	//printf("Distro: %s\n", distro);
 	if (distro == NULL){
-		fp = fopen("distros/no_distro.txt", "r");
+		fp = fopen("/bin/tfetch/distros/no_distro.txt", "r");
 	}
 	else if (strcmp(distro, "ID=arch\n") == 0) {
 		//printf("Distro: Arch\n");
-		fp = fopen("distros/arch.txt", "r");
+		fp = fopen("/bin/tfetch/distros/arch.txt", "r");
 	} else if (strcmp(distro, "ID=raspbian\n") == 0){
 		//printf("Distro: Raspbian\n");
-		fp = fopen("distros/raspbian.txt", "r");
+		fp = fopen("/bin/distros/raspbian.txt", "r");
 	}
 
 	if (fp == NULL) {
