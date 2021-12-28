@@ -187,7 +187,7 @@ char** get_logo(){
 	char* distro = get_distro();
 	//printf("Distro: %s\n", distro);
 	if (distro == NULL){
-		fp = fopen("distros/no_distro.txt", r);
+		fp = fopen("distros/no_distro.txt", "r");
 	}
 	else if (strcmp(distro, "ID=arch\n") == 0) {
 		//printf("Distro: Arch\n");
